@@ -1,29 +1,29 @@
-'use strict'
+'use strict';
 window.addEventListener('DOMContentLoaded', () => {
-    //tabs
+//tabs
     let menuType =  document.querySelector('.tabheader__items'),
         tabs = document.querySelectorAll('.tabheader__item'),
         tabContent = document.querySelectorAll('.tabcontent');
     
     function hideContent() {
         tabContent.forEach((item) => {
-            item.style.display = 'none'
-        })
+            item.style.display = 'none';
+        });
 
         tabs.forEach((item) => {
-            item.classList.remove('tabheader__item_active')
-        })
+            item.classList.remove('tabheader__item_active');
+        });
     }
 
-    hideContent()
+    hideContent();
     
 
     function showContent(i = 0) {
-        tabContent[i].classList.add('anim-tab')
-        tabContent[i].style.display = 'block'
-        tabs[i].classList.add('tabheader__item_active')
+        tabContent[i].classList.add('anim-tab');
+        tabContent[i].style.display = 'block';
+        tabs[i].classList.add('tabheader__item_active');
     }
-    showContent()
+    showContent();
 
     menuType.addEventListener('click',(event) => {
         let target = event.target;
@@ -32,8 +32,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 hideContent();
                 showContent(i);
             }  
-        })       
-    })
+        });
+    });
 
     //timer
 
@@ -47,7 +47,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     
     function withZeros (t) {
-        let str = '' + t
+        let str = '' + t;
         if (str.length === 1) {
             return '0' + str;
             
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
         function getTimer() {
         let nowStamp = Date.now(),
             result = new Date();
-            result.setTime(deadLine.getTime() - nowStamp)
+            result.setTime(deadLine.getTime() - nowStamp);
         return result;
     }
 
@@ -73,7 +73,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let time = getTimer();
         if (time.getTime() < 1000) {
             clearInterval(myTimer);
-            setTimer(new Date(0))
+            setTimer(new Date(0));
         } else {
             time.setTime(time.getTime() - 1000);
             setTimer(time);
@@ -86,14 +86,13 @@ window.addEventListener('DOMContentLoaded', () => {
     
   // modal window
     let modalOpen = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal'),
-        modalClose = document.querySelectorAll('[data-close-modal]');
+        modal = document.querySelector('.modal');
 
     modalOpen.forEach((item) => {
         item.addEventListener('click', () => {
             openModal();
-        })
-    })
+        });
+    });
 
     function openModal() {
         modal.classList.add('show');
@@ -110,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.modal__dialog')[0].classList.remove('hide');
         try {
             document.querySelectorAll('.modal__dialog')[1].remove();
-        } catch {}
+        } catch {} // eslint-disable-line
         clearInterval(hideMessageTimer);
 
     }
@@ -120,20 +119,20 @@ window.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal || e.target.hasAttribute('data-close-modal')) {
             closeModal();
         }
-    })
+    });
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Escape' && modal.classList.contains('show')) {
             closeModal();
         }
-    })
+    });
 
     // const modalTimer = setTimeout(openModal, 5000);
 
 
     function showModalByScroll() {
         if (document.documentElement.scrollTop > document.documentElement.scrollHeight - document.documentElement.clientHeight) {
-            openModal()
-            window.removeEventListener('scroll', showModalByScroll)
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
         } 
     }
 
@@ -154,7 +153,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         render() {
-            let s = document.createElement('div')
+            let s = document.createElement('div');
             s. innerHTML = `<img src="${this.img}" alt="${this.alt}">
                             <h3 class="menu__item-subtitle">Меню "${this.title}"</h3>
                             <div class="menu__item-descr">Меню ${this.description}</div>
@@ -162,29 +161,29 @@ window.addEventListener('DOMContentLoaded', () => {
                             <div class="menu__item-price">
                                 <div class="menu__item-cost">Цена:</div>
                                 <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
-                            </div>`
-            s.classList.add('menu__item', ...this.classes)
-            this.parentDiv.append(s)
-            return s
+                            </div>`;
+            s.classList.add('menu__item', ...this.classes);
+            this.parentDiv.append(s);
+            return s;
         }
     }
 
     const getResource = async (url) => {
-        const res = await fetch(url)
+        const res = await fetch(url);
         if (!res.ok) {
             throw new Error (`could not fetch ${url}, status: ${res.status}`);
         }
-        return await res.json()
-    }
+        return await res.json();
+    };
 
-    let divMenu = document.querySelector('.menu__field > .container')
+    let divMenu = document.querySelector('.menu__field > .container');
     divMenu.innerHTML = '';
 
     getResource('http://localhost:3000/menu')
     .then(data => {
         data.forEach(({img, altimg, title, descr, price}) => {
-            new MenuItem(img, altimg, title, descr, price, divMenu).render()   
-        })
+            new MenuItem(img, altimg, title, descr, price, divMenu).render();   
+        });
     });
 
 
@@ -203,10 +202,10 @@ window.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: data
-        })
+        });
 
-        return await res.json()
-    }
+        return await res.json();
+    };
 
     function bindPostData(form) {
         function nextModal (message) {
@@ -217,12 +216,12 @@ window.addEventListener('DOMContentLoaded', () => {
                 <div data-close-modal class="modal__close">&times;</div>
                 <div class = "modal__title">${message}</div>    
             </div>
-            `
+            `;
             finalModalDialog.classList.add('modal__dialog');
-            firstModalDialog.classList.add('hide')
-            modal.append(finalModalDialog)
+            firstModalDialog.classList.add('hide');
+            modal.append(finalModalDialog);
             document.querySelector('.spinner').remove();
-        };
+        }
 
 
         form.addEventListener('submit',(e) => {
@@ -238,27 +237,27 @@ window.addEventListener('DOMContentLoaded', () => {
                 margin: 0 auto;
             `;
             form.insertAdjacentElement('afterend',statusMessage);
-            statusMessage.classList.add('spinner')
+            statusMessage.classList.add('spinner');
             
-            const json = JSON.stringify(Object.fromEntries(formData.entries()))
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
 
             postData('http://localhost:3000/requests', json)
-            .then(data => {
+            .then(() => {
                 statusMessage.textContent = message.succses;
-                openModal()
+                openModal();
                 nextModal(message.succses);
             }).catch(() => {
-                openModal()
+                openModal();
                 nextModal(message.failure);
             }).finally(() => {
                 inputs.forEach((item) => item.value = '');
                 hideMessageTimer = setTimeout(closeModal,3000);
-            })
-        })
+            });
+        });
     }
 
-    forms.forEach(bindPostData)
+    forms.forEach(bindPostData);
 
 
     // slider
@@ -285,38 +284,38 @@ window.addEventListener('DOMContentLoaded', () => {
     slidesField.style.transition = '0.5s all';
     slidesWrapper.style.overflow = 'hidden';
 
-    width = window.getComputedStyle(offerSlider).width
+    width = window.getComputedStyle(offerSlider).width;
 
 
     slides.forEach(slide => {
         slide.style.width = width;
     });
 
-    slidesWrapper.style.width = width
+    slidesWrapper.style.width = width;
 
 
     function prevNumber(cur, total) {
         if (+cur === 1) {
-            cur = total
+            cur = total;
         } else {
-            cur -= 1
+            cur -= 1;
         }
         if (cur < 10) {
             cur = `0${cur}`;    
         }
-        return cur
+        return cur;
     }
 
     function nextNumber (cur, total) {
         if (+cur === total) {
-            cur = 1
+            cur = 1;
         } else {
-            cur += 1
+            cur += 1;
         }
         if (cur < 10) {
             cur = `0${cur}`;    
         }
-        return cur
+        return cur;
     }
 
 
@@ -366,13 +365,14 @@ window.addEventListener('DOMContentLoaded', () => {
             slidesField.style.transform = `translateX(-${currentOffset}px)`;
             currentSlideNumber.textContent = nextNumber(parseInt(event.target.getAttribute('data-slide-number')),slides.length);
             let dots = document.querySelectorAll('.dot');
-            dots.forEach(item => item.classList.remove('active'))
-            dots[parseInt(event.target.getAttribute('data-slide-number'))].classList.add('active')
+            dots.forEach(item => item.classList.remove('active'));
+            dots[parseInt(event.target.getAttribute('data-slide-number'))].classList.add('active');
         }
-    })
+    });
     offerSlider.append(slideNavigator);
 
     //calculator
+    setTimeout();
 
     let gender = document.querySelector('#gender'),
         height = document.querySelector('#height'),
@@ -382,13 +382,13 @@ window.addEventListener('DOMContentLoaded', () => {
         calcResult = document.querySelector('.calculating__result > span');
     try {
         chooser1({target: document.querySelector(`#${localStorage.getItem('sex')}`),
-                currentTarget: document.querySelector(`#${localStorage.getItem('sex')}`).parentElement})
+                currentTarget: document.querySelector(`#${localStorage.getItem('sex')}`).parentElement});
 
         chooser1({target: document.querySelector(`#${localStorage.getItem('activity')}`),
-                currentTarget: document.querySelector(`#${localStorage.getItem('activity')}`).parentElement})
-    } catch {};
+                currentTarget: document.querySelector(`#${localStorage.getItem('activity')}`).parentElement});
+    } catch {} // eslint-disable-line
              
-    console.log(document.querySelector(`#${localStorage.getItem('activity')}`))
+    console.log(document.querySelector(`#${localStorage.getItem('activity')}`));
     age.value = localStorage.getItem('age');
     height.value = localStorage.getItem('height');
     weight.value = localStorage.getItem('weight');
@@ -396,37 +396,37 @@ window.addEventListener('DOMContentLoaded', () => {
     function calculateCalories (event) {        
         try {
             if (event.target.value && event.target.value.match(/\D/g)) {
-                event.target.style.border = '1px solid red'
+                event.target.style.border = '1px solid red';
             } else {
-                event.target.style.border = ''
+                event.target.style.border = '';
             }
-        } catch {}
+        } catch {} // eslint-disable-line
         
 
         if (+height.value && +weight.value && +age.value) {
             let result;
             if (gender.querySelector('.calculating__choose-item_active').textContent === 'Женщина') {
-                result = 447.6 + (9.2 * weight.value) + (3.1 * height.value) - (4.3 * age.value)
+                result = 447.6 + (9.2 * weight.value) + (3.1 * height.value) - (4.3 * age.value);
             } else {
-                result = 88.36 + (13.4 * weight.value) + (4.8 * height.value) - (5.7 * age.value)
+                result = 88.36 + (13.4 * weight.value) + (4.8 * height.value) - (5.7 * age.value);
             }
             switch (activity.querySelector('.calculating__choose-item_active').id) {
                 case 'low':
-                    result *= 1.2
-                    break
+                    result *= 1.2;
+                    break;
                 case 'small':
-                    result *= 1.375
-                    break
+                    result *= 1.375;
+                    break;
                 case 'medium':
-                    result *= 1.55
-                    break
+                    result *= 1.55;
+                    break;
                 case 'high':
-                    result *= 1.725 
-                    break
+                    result *= 1.725;
+                    break;
             }
-            calcResult.textContent = '' + result.toFixed(0)
+            calcResult.textContent = '' + result.toFixed(0);
         } else {
-            calcResult.textContent = '____'
+            calcResult.textContent = '____';
         }
         localStorage.setItem('sex', gender.querySelector('.calculating__choose-item_active').id);
         localStorage.setItem('height', height.value);
@@ -448,7 +448,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
             calculateCalories();
         } 
-    };
+    }
 
     function chooser1 (event) {
         if (event.target.classList.contains('calculating__choose-item')) {
@@ -459,17 +459,17 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } 
-    };
+    }
 
     gender.addEventListener('click', chooser);
     activity.addEventListener('click', chooser);
-    weight.addEventListener('input', calculateCalories)
-    height.addEventListener('input', calculateCalories)
-    age.addEventListener('input', calculateCalories)
-    calculateCalories()
+    weight.addEventListener('input', calculateCalories);
+    height.addEventListener('input', calculateCalories);
+    age.addEventListener('input', calculateCalories);
+    calculateCalories();
     
 
     
-})  
+});
 
 
